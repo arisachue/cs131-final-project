@@ -8,7 +8,7 @@ def detect_face_coords(img, classifier):
     # TODO add parameter optimization
     coords = classifier.detectMultiScale(gray_frame, 1.3, 5)
 
-    biggest = (0, 0, 0, 0)
+    biggest = np.zeros(4)
     for i in coords:
         if i[3] > biggest[3]:
             biggest = i
@@ -32,7 +32,7 @@ def detect_eyes_coords(img, classifier):
             if len(eyes) >= 2:
                 if abs(eyes[0][1] - eyes[1][1]) < 50:
                     for (x, y, w, h) in eyes:
-                        if y < height / 2: 
+                        if y < height / 3: 
                             eyecenter = x + w / 2  # get the eye center
                             if eyecenter < width * 0.5:
                                 left_eye = (x, y, w, h)
