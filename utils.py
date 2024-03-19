@@ -75,7 +75,7 @@ def find_best_threshold(gray_img):
     contours, _ = cv2.findContours(eye_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     
     # keeps decreasing threshold (make it stricter) until 2 contours remain (one is the whole window frame, one is the real contour)
-    while len(contours) > 2 and start >= 20:
+    while len(contours) > 2 and start >= 5:
         start -= 2
         _, eye_img = cv2.threshold(gray_img, start, 255, cv2.THRESH_BINARY)
         contours, _ = cv2.findContours(eye_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
