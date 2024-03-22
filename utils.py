@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 
-
 def detect_face_coords(img, classifier):
     gray_frame = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
