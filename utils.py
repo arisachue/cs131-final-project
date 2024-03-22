@@ -110,5 +110,20 @@ def shift_contour_inside_eye(eye_img, contour):
         
     # shifting the contour points towards center of eye
     contour = contour + [shift_x, shift_y]
-        
+    
     return contour
+
+# for manual iris drawing, or drawing the contour directly
+def is_contour_circular(contour):
+    # Calculate area and perimeter of the contour
+    area = cv2.contourArea(contour)
+    perimeter = cv2.arcLength(contour, True)
+    
+    # Calculate circularity ratio
+    circularity_ratio = 4 * np.pi * area / (perimeter ** 2)
+    
+    # Set a threshold for circularity ratio
+    circularity_threshold = 0.6  # Adjust as needed
+    
+    # Return True if circularity ratio is above the threshold, else False
+    return circularity_ratio >= circularity_threshold
