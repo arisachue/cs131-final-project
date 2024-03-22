@@ -5,7 +5,6 @@ import numpy as np
 def detect_face_coords(img, classifier):
     gray_frame = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
-    # TODO add parameter optimization
     coords = classifier.detectMultiScale(gray_frame, 1.3, 5)
 
     biggest = np.zeros(4)
@@ -40,14 +39,6 @@ def detect_eyes_coords(img, classifier):
                                 right_eye = (x, y, w, h)
                     return left_eye, right_eye
     
-    '''eyes = classifier.detectMultiScale(gray_frame, 1.3, 5) # detect eyes
-    for (x, y, w, h) in eyes:
-        
-        eyecenter = x + w / 2  # get the eye center
-        if eyecenter < width * 0.5:
-            left_eye = (x, y, w, h)
-        else:
-            right_eye = (x, y, w, h)'''
     return (0, 0, 0, 0), (0, 0, 0, 0)
 
 def remove_eyebrows(img):
@@ -60,10 +51,6 @@ def remove_eyebrows(img):
 def find_eye_keypoints(img, detector):
     gray_frame = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     _, img = cv2.threshold(gray_frame, 60, 255, cv2.THRESH_BINARY)
-    
-#     img = cv2.erode(img, None, iterations=2) #1
-#     img = cv2.dilate(img, None, iterations=4) #2
-#     img = cv2.medianBlur(img, 5) #3
 
     keypoints = detector.detect(img)
     return keypoints
@@ -115,15 +102,10 @@ def shift_contour_inside_eye(eye_img, contour):
 
 # for manual iris drawing, or drawing the contour directly
 def is_contour_circular(contour):
-    # Calculate area and perimeter of the contour
     area = cv2.contourArea(contour)
     perimeter = cv2.arcLength(contour, True)
     
-    # Calculate circularity ratio
     circularity_ratio = 4 * np.pi * area / (perimeter ** 2)
-    
-    # Set a threshold for circularity ratio
     circularity_threshold = 0.6  # Adjust as needed
     
-    # Return True if circularity ratio is above the threshold, else False
     return circularity_ratio >= circularity_threshold
